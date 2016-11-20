@@ -1,0 +1,238 @@
+TODO {
+	- implement check(mate) functionality //@King.isBlocked()//
+		// checkmate~
+	
+	- try using .5 instead of 0.5 aye
+	
+	- unselect on click is broken, refix
+	
+	! bugfix?: pawn can jump over other pieces on their first step
+	
+	- check if all rules are properly implemented
+	
+	- VISUALS:
+		- who's turn is it?
+		- is king checked?
+		- is king checkmate?
+		- timer maybe? maybe
+		- on moving piece to enemy tile, don't show underlying enemy?
+		
+	- min window size?
+	
+	- EVENTUALLY: code cleanup, removing random sysoutprints etc
+	- gameGrid.. xy or yx? row-col or col-row?
+	- check if things like public/private are needed
+
+	- multiplayer support (LAN connection)
+	
+	- AI
+		- AI input delay, to make it seem more natural
+		- move rating
+	
+	- option in Settings to NOT to be forced to move once touching a piece?
+	
+	- make Mouse implement listener interfaces?
+	
+}
+
+DONE {
+	- unselect by reclicking piece
+	- alternating turns ~ black, white, black, white etc
+	! bugfix: after select, you can select enemy without taking a turn first
+	- implementing getMoves() methods
+	- implementing isBlocked() methods
+	~ drag/drop pieces
+	- put Logs and Settings in classes
+	- king must be blocked from getting himself checked
+		(fixed) // pawn attacks are not blocking King yet
+	! bugfix: pawn attacks are blocked by other pieces right in front of them
+	- makes sure all breaks break out of the right loop
+	- constants should be in ALLCAPS
+	! bugfix: after selecting, clicking on enemy piece does nothing
+	// this should trigger unselect, just like clicking an empty tile
+	- King.isBlocked() obsolete?
+	- use instanceof instead of .getClass().getSimpleName().equals() maybe?
+	- use chess.Color instead of Color to prevent confusion
+	- use enum for colors
+	- log color string instead of 0/1 int
+	- log moves made @Console/MouseEvent
+	- log everything properly
+			// (might involve a variable to keep track of the last log,
+			//  just like Board.lastTileSelected)
+	
+	
+	
+	
+	VISUALS:
+		- reset animation
+		- make responsive
+		- coordinates around the board
+		- drag/drop animation
+	
+	CHECKMATE:
+		// when checked, king must be blocked from all moves
+		// 	EXCEPT the ones that will uncheck him
+		// see Board:170
+		// prolly need some method to see if king is checked
+		// also when king checked, all other pieces must have all their moves blocked
+		//
+		// ! bugfix: right now, when king is checked, only he can move
+		// 	INSTEAD everyone who can uncheck the king should be able to move
+		//
+		// ! bugfix: you shouldn't be able to do any move that leaves King unchecked
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	~ ChessPiece: moveTo()
+		Board.addMoveToHistory(
+			new Move(
+				tileA, tileA.getPiece(),
+				tileB, tileB.getPiece()
+			);
+		);
+	~ Board.history = new ArrayList<Move>();
+	~ Board: undoMove()
+	~ Board: addMoveToHistory()
+	
+	~ Move(
+		Coordinates tileA, ChessPiece pieceA,
+		Coordinates tileB, ChessPiece tileB
+	)
+	
+	~ ChessPiece: getRealOptions()
+		if (!isChecked || moveWouldUncheck(move)) {
+			options.add(move);
+		}
+	
+	~ ChessPiece/Board: moveWouldUncheck()
+	
+}
+
+
+
+  =======  G R I D  =======
+ |                         |
+ |   x 1 2 3 4 5 6 7 8 x   |
+ |   8 o ø . . x . . . 8   |
+ |   7 x . . . . . ø o 7   |
+ |   6 . . . . . . . x 6   |
+ |   5 ø o ø . . . . . 5   |
+ |   4 . x . . . . o . 4   |
+ |   3 . . ø # ø ø o ø 3   |
+ |   2 . . . x . . x . 2   |
+ |   1 . . . . . . . . 1   |
+ |   x 1 2 3 4 5 6 7 8 x   |
+ |                         |
+  =========================
+
+
+
+
+y - this.getColor()  * 	2*step	+	step	
+	(0 | 1)				(1 | 2)
+
+3 + (0 | 1) * (1 | 2)
+
+ player )	(3) - (0)*2*(1) + (1) = 4
+  enemy )	(3) - (1)*2*(1) + (1) = 2
+  
+ player )	(6) - (0)*2*(3) + (3) = 9
+  enemy )	(6) - (1)*2*(3) + (3) = 3
+
+
+>>
+
+
+
+
+
+
+
+
+x = 0
+y = 1
+>> -1
+x = -1
+y = 0
+>> *9
+x = -9
+y = 0
+>> 2-x
+>> 7-y
+x = 2--9 = 11
+y = 7-0 = 7
+
+
+
+x = 0
+y = 1
+>> *7
+x = 0
+y = 7
+>> +1
+x = 1
+y = 8
+
+x = 0
+y = 1
+>> *-9
+x = 0
+y = -9
+>> +1
+x = 1
+y = -8
+
+>> x-2
+>> y-7
+
+x-2 == y-7
+
+x == y-5
+y == x+5
+
+1 == 0+5
+
+
+
+
+
+x = 0
+y = 1
+>> *5
+x = 0
+y = 5
+2-x = 2
+7-y = 2
+
+2+x = 2
+7+y = 2
+y would be -5 then
+
+8-x = 8
+1-y = 8
+
+>> -7
+
+The answer is -7?
+
+8+x = 8
+1+y = 8
+
+The answer is 7 aye
+
+The answer is 5~
+
+
+
+
+
+onclick
+	if tile is not out of bounds
+		
